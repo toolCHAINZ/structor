@@ -1,5 +1,6 @@
 # structor (v0.1)
 Author: **toolchainz**
+
 _A naive auto-struct maker._
 ## Description:
 To make a structure, go to MLIL view, right click on a line, and click `Create Auto Structure`.
