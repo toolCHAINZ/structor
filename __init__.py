@@ -1,7 +1,17 @@
 from binaryninja import PluginCommand, Type, Structure, interaction
 from binaryninja.log import log_error
+from binaryninja.plugin import BackgroundTaskThread
 from instruction_handler import InstructionHandler
 from structor import Structor
+
+class StructorTask(BackgroundTaskThread):
+    def __init__(self, view):
+        super(StructorTask, self).__init__('Generating structure...')
+        self.view = view
+
+    def run(self, instr):
+		do_work(self.view, instr)
+		self.finish()
 
 def do_work(bv, instr):
 	info = InstructionHandler(instr)
@@ -43,5 +53,10 @@ def do_work(bv, instr):
 	struct_ptr = Type.pointer(bv.arch, result.named_type)
 	for ssa_var in result.variables:
 		instr.function.source_function.create_user_var(ssa_var.var, struct_ptr, ssa_var.var.name)
+		#Maybe not necessary to set for every one because binja propagates it?
 
-PluginCommand.register_for_medium_level_il_instruction("Create Auto Struct", "structor", do_work)
+def create_struct(bv, instr):
+	s = StructorTask(bv)
+	s.run(instr)
+
+PluginCommand.register_for_medium_level_il_instruction("Structor\\Create Auto Struct", "structor", create_struct)
