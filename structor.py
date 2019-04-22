@@ -17,7 +17,7 @@ class Structor(object):
 		log_debug("uses: {}".format(uses))
 		log_debug("def of {}: {}".format(ssa_var, definition))
 		if definition is not None:
-			def_info = InstructionHandler(self.ssa_function[definition])
+			def_info = InstructionHandler(definition)
 			if def_info.is_ssa_direct_assignment():
 				def_var = def_info.get_ssa_direct_assignment_source()
 				if def_var != None and def_var not in ignore:
@@ -25,12 +25,12 @@ class Structor(object):
 					result = self.search_for_variables(def_var, ignore=variables)
 					variables = variables.union(result)
 		for use in uses:
-			use_info = InstructionHandler(self.ssa_function[use])
-			log_debug("use of {}: {}".format(ssa_var, self.ssa_function[use]))
+			use_info = InstructionHandler(use)
+			log_debug("use of {}: {}".format(ssa_var, use))
 			if use_info.is_ssa_direct_assignment():
 				if ignore == use_info.get_ssa_direct_assignment_source():
 					continue
-				use_var = self.ssa_function[use].dest
+				use_var = use.dest
 				result = self.search_for_variables(use_var, ignore=variables)
 				variables = variables.union(result)
 		return variables
@@ -40,7 +40,7 @@ class Structor(object):
 		for var in self.variables:
 			uses = self.ssa_function.get_ssa_var_uses(var)
 			for use in uses:
-				info = InstructionHandler(self.ssa_function[use])
+				info = InstructionHandler(use)
 				result = info.get_access_info_for_ssa_var(var)
 				accesses.extend(result)
 		return accesses
