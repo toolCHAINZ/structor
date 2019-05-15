@@ -10,7 +10,7 @@ To make a structure, go to MLIL view, right click on a line, and click `Create A
 
 This plugin requires the following minimum version of Binary Ninja:
 
- * dev - 1.1.1456
+ * dev - 1.1.1616
 
 
 

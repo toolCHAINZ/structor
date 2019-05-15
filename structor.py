@@ -1,4 +1,4 @@
-from instruction_handler import InstructionHandler
+from .instruction_handler import InstructionHandler
 from binaryninja import log_debug
 from binaryninja.types import Type, Structure
 class Structor(object):
