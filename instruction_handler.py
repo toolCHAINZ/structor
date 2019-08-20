@@ -86,7 +86,7 @@ class InstructionHandler(object):
     def get_ssa_form_of_variable(self, variable):
         variables = self.get_ssa_variables()
         for current_var in variables:
-            if variable.name == current_var.var.name:
+            if variable.name == current_var.name:
                 return current_var
         return None
 
